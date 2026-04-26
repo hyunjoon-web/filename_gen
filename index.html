@@ -21,320 +21,309 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
+body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 body::before {
-  content: '';
-  position: fixed; inset: 0;
+  content: ''; position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none; z-index: 0; opacity: 0.4;
 }
 
-/* HEADER */
+/* ── HEADER ── */
 header {
-  padding: 22px 40px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 14px;
+  padding: 18px 40px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
   position: relative; z-index: 1;
 }
-.logo-mark {
-  width: 34px; height: 34px;
-  background: var(--accent);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-header h1 { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+.logo-mark { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+header h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
 header h1 span { color: var(--accent); }
-.badge-version {
-  margin-left: auto;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px; color: var(--muted);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  padding: 3px 10px; border-radius: 20px;
-}
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.badge-version { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 3px 10px; border-radius: 20px; }
 
-/* MODE TABS */
-.mode-bar {
-  position: relative; z-index: 1;
-  max-width: 1200px; width: 100%;
-  margin: 0 auto;
-  padding: 24px 40px 0;
+/* Help button */
+.btn-help {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 7px 14px;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
 }
-.mode-tabs {
-  display: flex;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 5px;
-  width: fit-content;
-  gap: 4px;
-}
+.btn-help:hover { color: var(--accent2); border-color: var(--accent2); background: rgba(78,240,192,0.06); }
+.btn-help svg { flex-shrink: 0; }
+
+/* ── MODE BAR ── */
+.mode-bar { position: relative; z-index: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 22px 40px 0; }
+.mode-tabs { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 5px; width: fit-content; gap: 4px; }
 .mode-tab {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  background: none;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px; font-weight: 600;
-  color: var(--muted);
-  transition: all 0.2s;
+  display: flex; align-items: center; gap: 10px; padding: 10px 18px;
+  border-radius: 10px; cursor: pointer; border: 1px solid transparent;
+  background: none; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--muted); transition: all 0.2s;
 }
 .mode-tab:hover { color: var(--text); }
-.mode-tab.active {
-  background: var(--surface2);
-  color: var(--text);
-  border-color: var(--border);
-}
-.tab-icon {
-  width: 28px; height: 28px;
-  border-radius: 7px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--surface2);
-  flex-shrink: 0;
-  transition: background 0.2s;
-}
+.mode-tab.active { background: var(--surface2); color: var(--text); border-color: var(--border); }
+.tab-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; background: var(--surface2); flex-shrink: 0; transition: background 0.2s; }
 .mode-tab.active .tab-icon { background: rgba(127,255,110,0.12); }
 .tab-title { display: block; font-size: 13px; font-weight: 700; }
 .tab-desc  { display: block; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
 
-/* MAIN */
-main {
-  flex: 1;
-  position: relative; z-index: 1;
-  max-width: 1200px; width: 100%;
-  margin: 0 auto;
-  padding: 24px 40px 32px;
-  display: flex; flex-direction: column;
-}
-.panel-wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.section-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 2px; text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 10px;
-}
+/* ── MAIN ── */
+main { flex: 1; position: relative; z-index: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 22px 40px 32px; display: flex; flex-direction: column; }
+.panel-wrap { display: grid; grid-template-columns: 1fr 1fr; }
+.section-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 
 /* LEFT */
-.panel-files {
-  padding-right: 28px;
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; gap: 14px;
-}
+.panel-files { padding-right: 28px; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 14px; }
+
+/* Drop zone */
 .drop-zone {
-  border: 1.5px dashed var(--border);
-  border-radius: 14px;
-  padding: 28px 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: var(--surface);
+  border: 1.5px dashed var(--border); border-radius: 14px;
+  padding: 24px; text-align: center; cursor: pointer;
+  transition: all 0.2s; background: var(--surface);
   position: relative; overflow: hidden;
 }
-.drop-zone::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(127,255,110,0.06), transparent 70%);
-  opacity: 0; transition: opacity 0.3s;
-}
+.drop-zone::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(127,255,110,0.06), transparent 70%); opacity: 0; transition: opacity 0.3s; }
 .drop-zone.mode-single { border-color: rgba(78,240,192,0.3); }
 .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); background: var(--surface2); }
 .drop-zone.mode-single:hover { border-color: var(--accent2); }
 .drop-zone:hover::after, .drop-zone.drag-over::after { opacity: 1; }
-.drop-icon {
-  width: 40px; height: 40px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 11px;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 12px;
-  transition: background 0.2s;
-}
+
+/* Drop zone: empty state */
+.dz-empty { display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+.drop-icon { width: 38px; height: 38px; background: var(--surface2); border: 1px solid var(--border); border-radius: 11px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; transition: background 0.2s; }
 .drop-zone:hover .drop-icon { background: rgba(127,255,110,0.1); border-color: var(--accent); }
 .drop-zone.mode-single:hover .drop-icon { background: rgba(78,240,192,0.1); border-color: var(--accent2); }
 .drop-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
 .drop-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
 .drop-sub strong { color: var(--accent2); }
 
-.file-list-wrap {
-  flex: 1; background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-  display: flex; flex-direction: column; min-height: 160px;
-}
-.file-list-header {
-  padding: 10px 14px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.file-count {
-  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent);
-  background: rgba(127,255,110,0.08); padding: 2px 9px; border-radius: 20px;
-  border: 1px solid rgba(127,255,110,0.2);
-}
-.btn-clear {
-  background: none; border: none; cursor: pointer;
-  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
-  padding: 3px 7px; border-radius: 6px; transition: color 0.2s;
-}
-.btn-clear:hover { color: var(--danger); }
-
-.btn-copy {
-  display: flex; align-items: center; gap: 5px;
+/* Drop zone: files attached state */
+.dz-filled { display: none; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+.dz-filled.show { display: flex; }
+.dz-empty.hide { display: none; }
+.dz-file-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-height: 80px; overflow: hidden; }
+.dz-badge {
+  font-family: 'DM Mono', monospace; font-size: 10px;
   background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 7px; padding: 4px 10px;
-  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
-  cursor: pointer; transition: all 0.2s;
+  border-radius: 6px; padding: 3px 8px; color: var(--text);
+  max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+.dz-badge.more { color: var(--muted); border-style: dashed; }
+.dz-count-row { display: flex; align-items: center; gap: 8px; }
+.dz-count-pill {
+  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+  background: rgba(127,255,110,0.1); border: 1px solid rgba(127,255,110,0.3);
+  color: var(--accent); border-radius: 20px; padding: 3px 12px;
+}
+.dz-count-row .dz-hint { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+/* Preview list */
+.file-list-wrap { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; min-height: 160px; }
+.file-list-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.file-count { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); background: rgba(127,255,110,0.08); padding: 2px 9px; border-radius: 20px; border: 1px solid rgba(127,255,110,0.2); }
+.btn-clear { background: none; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); padding: 3px 7px; border-radius: 6px; transition: color 0.2s; }
+.btn-clear:hover { color: var(--danger); }
+.btn-copy { display: flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 4px 10px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; transition: all 0.2s; }
 .btn-copy:hover { color: var(--accent2); border-color: var(--accent2); background: rgba(78,240,192,0.06); }
 .btn-copy.copied { color: var(--accent); border-color: rgba(127,255,110,0.4); background: rgba(127,255,110,0.08); }
-.btn-copy svg { flex-shrink: 0; transition: opacity 0.2s; }
-#fileListEl {
-  flex: 1; overflow-y: auto; list-style: none; max-height: 260px;
-  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-}
-#fileListEl li {
-  display: flex; align-items: center; gap: 8px;
-  padding: 7px 14px; border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
-}
+#fileListEl { flex: 1; overflow-y: auto; list-style: none; max-height: 240px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+#fileListEl li { display: flex; align-items: center; gap: 8px; padding: 7px 14px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
 #fileListEl li:last-child { border-bottom: none; }
 #fileListEl li:hover { background: var(--surface2); }
-.file-idx  { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); min-width: 20px; text-align: right; flex-shrink: 0; }
-.file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text); }
-.file-arrow{ color: var(--muted); font-size: 10px; flex-shrink: 0; }
-.file-new  { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); }
+.file-idx   { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); min-width: 20px; text-align: right; flex-shrink: 0; }
+.file-name  { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text); }
+.file-arrow { color: var(--muted); font-size: 10px; flex-shrink: 0; }
+.file-new   { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); }
 .file-new.unmatched { color: var(--warn); }
 
 /* RIGHT */
-.panel-names {
-  padding-left: 28px;
-  display: flex; flex-direction: column; gap: 12px;
+.panel-names { padding-left: 28px; display: flex; flex-direction: column; gap: 12px; }
+.name-controls { display: flex; gap: 8px; align-items: stretch; }
+
+/* ── BUG FIX: prefix input ── */
+/* Remove absolute overlay label, use a side-by-side layout instead */
+.prefix-wrap {
+  flex: 1; display: flex; align-items: stretch;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; transition: border-color 0.2s;
 }
-.name-controls { display: flex; gap: 8px; align-items: center; }
-.input-wrap { position: relative; flex: 1; }
-.input-prefix {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent2); pointer-events: none;
+.prefix-wrap:focus-within { border-color: var(--accent2); }
+.prefix-label {
+  display: flex; align-items: center;
+  padding: 0 10px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent2);
+  background: rgba(78,240,192,0.05);
+  border-right: 1px solid var(--border);
+  white-space: nowrap; flex-shrink: 0;
+  user-select: none;
 }
 #prefixInput {
-  width: 100%; background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 9px 12px 9px 52px;
+  flex: 1; background: none; border: none;
+  padding: 9px 10px;
   font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text);
-  outline: none; transition: border-color 0.2s;
+  outline: none; min-width: 0;
 }
-#prefixInput:focus { border-color: var(--accent2); }
-.ext-wrap {
-  display: flex; align-items: center;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 0 12px; gap: 3px;
-}
+
+.ext-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0 12px; gap: 3px; transition: border-color 0.2s; }
+.ext-wrap:focus-within { border-color: var(--accent2); }
 .ext-dot { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
-#extInput {
-  background: none; border: none;
-  font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent);
-  width: 44px; outline: none; padding: 9px 0;
-}
+#extInput { background: none; border: none; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); width: 44px; outline: none; padding: 9px 0; }
+
 #namesInput {
-  width: 100%; height: 300px;
+  width: 100%; height: 280px;
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  padding: 14px 16px;
-  font-family: 'DM Mono', monospace; font-size: 11.5px; line-height: 1.75;
+  padding: 14px 16px; font-family: 'DM Mono', monospace; font-size: 11.5px; line-height: 1.75;
   color: var(--text); resize: vertical; outline: none; transition: border-color 0.2s;
 }
 #namesInput:focus { border-color: var(--accent2); }
 #namesInput::placeholder { color: var(--muted); }
 .names-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-.meta-chip {
-  font-family: 'DM Mono', monospace; font-size: 11px;
-  padding: 3px 10px; border-radius: 20px;
-  border: 1px solid var(--border); background: var(--surface); color: var(--muted);
-}
+.meta-chip { font-family: 'DM Mono', monospace; font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); }
 .meta-chip.ok   { color: var(--accent); border-color: rgba(127,255,110,0.25); background: rgba(127,255,110,0.06); }
-.meta-chip.warn { color: var(--warn);   border-color: rgba(255,184,77,0.25);  background: rgba(255,184,77,0.06);  }
-.meta-chip.err  { color: var(--danger); border-color: rgba(255,95,95,0.25);   background: rgba(255,95,95,0.06);   }
+.meta-chip.warn { color: var(--warn);   border-color: rgba(255,184,77,0.25);  background: rgba(255,184,77,0.06); }
 
-/* ACTION BAR */
-.action-bar {
-  margin-top: 22px; padding-top: 20px;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; gap: 12px;
-}
+/* ── ACTION BAR ── */
+.action-bar { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
 .status-msg { flex: 1; font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; }
 .status-msg.ok   { color: var(--accent); }
-.status-msg.err  { color: var(--danger); }
-.status-msg.warn { color: var(--warn);   }
+.status-msg.warn { color: var(--warn); }
 .btn-main {
-  background: var(--accent); color: #0a1a07;
-  border: none; border-radius: 11px; padding: 12px 26px;
+  background: var(--accent); color: #0a1a07; border: none; border-radius: 11px; padding: 12px 26px;
   font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800;
   cursor: pointer; display: flex; align-items: center; gap: 7px;
-  transition: all 0.2s; letter-spacing: -0.3px;
-  position: relative; overflow: hidden;
+  transition: all 0.2s; letter-spacing: -0.3px; position: relative; overflow: hidden;
 }
 .btn-main::before { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15); opacity: 0; transition: opacity 0.2s; }
 .btn-main:hover::before { opacity: 1; }
 .btn-main:active { transform: scale(0.97); }
 .btn-main:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; }
 .btn-main:disabled::before { display: none; }
-
 .progress-wrap { display: none; margin-top: 10px; }
 .progress-wrap.visible { display: block; }
 .progress-bar-bg { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
 .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.2s; width: 0%; }
 
-/* ALERT MODAL */
-.alert-backdrop {
+/* ── GUIDE MODAL ── */
+.modal-backdrop {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.72); backdrop-filter: blur(4px);
-  z-index: 100; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.78); backdrop-filter: blur(6px);
+  z-index: 200; align-items: center; justify-content: center; padding: 20px;
 }
-.alert-backdrop.show { display: flex; }
-.alert-box {
+.modal-backdrop.show { display: flex; }
+.guide-box {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 18px; padding: 28px 28px 22px;
-  max-width: 400px; width: 90%;
-  animation: alertIn 0.2s ease;
+  border-radius: 20px; width: 100%; max-width: 620px; max-height: 88vh;
+  display: flex; flex-direction: column;
+  animation: modalIn 0.22s ease;
+  overflow: hidden;
 }
-@keyframes alertIn {
-  from { opacity: 0; transform: scale(0.95) translateY(8px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+@keyframes modalIn { from { opacity:0; transform: scale(0.96) translateY(10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+.guide-header {
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
 }
-.alert-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: rgba(255,95,95,0.1); border: 1px solid rgba(255,95,95,0.2);
+.guide-header-left { display: flex; align-items: center; gap: 10px; }
+.guide-header-icon { width: 32px; height: 32px; background: rgba(78,240,192,0.12); border: 1px solid rgba(78,240,192,0.25); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+.guide-header h2 { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+.btn-close { background: none; border: none; cursor: pointer; color: var(--muted); padding: 4px; border-radius: 6px; transition: color 0.2s; display: flex; }
+.btn-close:hover { color: var(--text); }
+
+/* Guide tabs */
+.guide-tabs { display: flex; padding: 12px 24px 0; gap: 4px; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.guide-tab { padding: 7px 14px; border-radius: 8px 8px 0 0; border: 1px solid transparent; border-bottom: none; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; background: none; transition: all 0.2s; position: relative; bottom: -1px; }
+.guide-tab:hover { color: var(--text); }
+.guide-tab.active { background: var(--surface); border-color: var(--border); color: var(--accent2); }
+
+.guide-body { flex: 1; overflow-y: auto; padding: 24px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+/* Guide content */
+.guide-panel { display: none; flex-direction: column; gap: 20px; }
+.guide-panel.show { display: flex; }
+
+.guide-section-title {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.guide-desc { font-size: 13px; line-height: 1.7; color: var(--text); }
+.guide-desc strong { color: var(--accent2); font-weight: 700; }
+
+/* Diagram */
+.guide-diagram {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px;
+  font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.8;
+  color: var(--muted);
+}
+.guide-diagram .hl  { color: var(--accent); font-weight: 500; }
+.guide-diagram .hl2 { color: var(--accent2); }
+.guide-diagram .arr { color: var(--muted); }
+
+/* Steps */
+.guide-steps { display: flex; flex-direction: column; gap: 10px; }
+.guide-step {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 14px;
+}
+.step-num {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(78,240,192,0.12); border: 1px solid rgba(78,240,192,0.3);
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--accent2);
+  margin-top: 1px;
 }
+.step-body { flex: 1; }
+.step-title { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+.step-desc  { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.6; }
+.step-desc strong { color: var(--text); font-weight: 500; }
+
+/* Tips */
+.guide-tips { display: flex; flex-direction: column; gap: 8px; }
+.guide-tip {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 14px; border-radius: 10px;
+  background: rgba(127,255,110,0.04); border: 1px solid rgba(127,255,110,0.12);
+}
+.tip-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+.tip-text { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.6; }
+.tip-text strong { color: var(--accent); font-weight: 500; }
+
+/* Mock UI diagrams */
+.mock-ui {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+}
+.mock-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: var(--muted); }
+.mock-row:last-child { margin-bottom: 0; }
+.mock-label { color: var(--muted); font-size: 10px; min-width: 50px; }
+.mock-val { color: var(--accent2); }
+.mock-arrow { color: var(--border); }
+.mock-result { color: var(--accent); }
+.mock-badge { background: rgba(127,255,110,0.08); border: 1px solid rgba(127,255,110,0.2); border-radius: 4px; padding: 1px 6px; color: var(--accent); font-size: 10px; }
+
+/* Warn tip */
+.guide-warn {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 14px; border-radius: 10px;
+  background: rgba(255,95,95,0.05); border: 1px solid rgba(255,95,95,0.2);
+}
+.guide-warn .tip-text { color: var(--muted); }
+.guide-warn .tip-text strong { color: var(--danger); }
+
+/* ── ALERT MODAL ── */
+.alert-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.72); backdrop-filter: blur(4px); z-index: 300; align-items: center; justify-content: center; }
+.alert-backdrop.show { display: flex; }
+.alert-box { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 28px 28px 22px; max-width: 400px; width: 90%; animation: alertIn 0.2s ease; }
+@keyframes alertIn { from { opacity:0; transform: scale(0.95) translateY(8px); } to { opacity:1; transform: scale(1) translateY(0); } }
+.alert-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,95,95,0.1); border: 1px solid rgba(255,95,95,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
 .alert-title { font-size: 15px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.3px; }
 .alert-body  { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
 .alert-body strong { color: var(--text); font-weight: 500; }
 .alert-actions { display: flex; justify-content: flex-end; gap: 8px; }
-.btn-alert-cancel {
-  background: var(--surface2); color: var(--muted);
-  border: 1px solid var(--border); border-radius: 9px; padding: 9px 18px;
-  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s;
-}
+.btn-alert-cancel { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); border-radius: 9px; padding: 9px 18px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .btn-alert-cancel:hover { color: var(--text); border-color: var(--text); }
-.btn-alert-ok {
-  background: var(--danger); color: #fff;
-  border: none; border-radius: 9px; padding: 9px 18px;
-  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800;
-  cursor: pointer; transition: opacity 0.2s;
-}
+.btn-alert-ok { background: var(--danger); color: #fff; border: none; border-radius: 9px; padding: 9px 18px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; cursor: pointer; transition: opacity 0.2s; }
 .btn-alert-ok:hover { opacity: 0.85; }
 
 @media (max-width: 760px) {
@@ -344,11 +333,13 @@ main {
   .panel-wrap { grid-template-columns: 1fr; }
   .panel-files { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 20px; }
   .panel-names { padding-left: 0; padding-top: 20px; }
+  .badge-version { display: none; }
 }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="logo-mark">
     <svg viewBox="0 0 20 20" fill="none" width="18" height="18">
@@ -359,12 +350,22 @@ main {
     </svg>
   </div>
   <h1>File <span>Renamer</span></h1>
-  <span class="badge-version">v2.0 · client-side only</span>
+  <div class="header-right">
+    <button class="btn-help" id="btnHelp">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M5.5 5.5a1.5 1.5 0 113 0c0 1-1.5 1.5-1.5 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="7" cy="10" r="0.6" fill="currentColor"/>
+      </svg>
+      사용 가이드
+    </button>
+    <span class="badge-version">v2.1 · client-side only</span>
+  </div>
 </header>
 
+<!-- MODE TABS -->
 <div class="mode-bar">
   <div class="mode-tabs">
-
     <button class="mode-tab active" id="tabSingle" onclick="setMode('single')">
       <div class="tab-icon">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -377,7 +378,6 @@ main {
         <span class="tab-desc">파일 1개 × 변수 N개 복사</span>
       </div>
     </button>
-
     <button class="mode-tab" id="tabMulti" onclick="setMode('multi')">
       <div class="tab-icon">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -392,10 +392,10 @@ main {
         <span class="tab-desc">파일 순서 = 변수 순서 매칭</span>
       </div>
     </button>
-
   </div>
 </div>
 
+<!-- MAIN -->
 <main>
   <div class="panel-wrap">
 
@@ -405,14 +405,25 @@ main {
 
       <div class="drop-zone mode-single" id="dropZone">
         <input type="file" id="fileInput">
-        <div class="drop-icon">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M9 12V3M9 3L6 6M9 3L12 6" stroke="#4ef0c0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 13v1a2 2 0 002 2h10a2 2 0 002-2v-1" stroke="#4ef0c0" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
+        <!-- empty state -->
+        <div class="dz-empty" id="dzEmpty">
+          <div class="drop-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 12V3M9 3L6 6M9 3L12 6" stroke="#4ef0c0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 13v1a2 2 0 002 2h10a2 2 0 002-2v-1" stroke="#4ef0c0" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="drop-title" id="dropTitle">파일 1개 선택</div>
+          <div class="drop-sub" id="dropSub">변수 개수만큼 자동 복사됩니다 · <strong>모든 확장자 가능</strong></div>
         </div>
-        <div class="drop-title" id="dropTitle">파일 1개 선택</div>
-        <div class="drop-sub" id="dropSub">변수 개수만큼 자동 복사됩니다 · <strong>모든 확장자 가능</strong></div>
+        <!-- filled state -->
+        <div class="dz-filled" id="dzFilled">
+          <div class="dz-count-row">
+            <span class="dz-count-pill" id="dzCountPill">0개 첨부됨</span>
+            <span class="dz-hint" id="dzHint">클릭하여 파일 추가</span>
+          </div>
+          <div class="dz-file-badges" id="dzBadges"></div>
+        </div>
       </div>
 
       <div class="file-list-wrap">
@@ -420,7 +431,7 @@ main {
           <span class="section-label" style="margin:0">미리보기</span>
           <div style="display:flex;gap:6px;align-items:center">
             <span class="file-count" id="fileCountEl">0개</span>
-            <button class="btn-copy" id="btnCopy" title="변환된 파일명을 클립보드에 복사">
+            <button class="btn-copy" id="btnCopy" title="변환된 파일명 복사">
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
                 <rect x="4" y="4" width="8" height="9" rx="1.2" stroke="currentColor" stroke-width="1.2"/>
                 <path d="M2 10V2.5A1 1 0 013 1.5h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
@@ -437,10 +448,10 @@ main {
     <!-- RIGHT -->
     <div class="panel-names">
       <div class="section-label">② 변수명 입력</div>
-
       <div class="name-controls">
-        <div class="input-wrap">
-          <span class="input-prefix">prefix /</span>
+        <!-- FIXED: label + input side by side, no absolute overlay -->
+        <div class="prefix-wrap">
+          <span class="prefix-label">prefix /</span>
           <input type="text" id="prefixInput" placeholder="badge-" value="badge-">
         </div>
         <div class="ext-wrap">
@@ -448,14 +459,12 @@ main {
           <input type="text" id="extInput" placeholder="svg" value="svg">
         </div>
       </div>
-
       <textarea id="namesInput" placeholder="변수명을 한 줄에 하나씩 입력하세요
 
 badge_streak_1
 badge_streak_2
 badge_lesson_1
 ..."></textarea>
-
       <div class="names-meta">
         <span class="meta-chip" id="namesCountChip">0개 변수</span>
         <span class="meta-chip" id="matchChip" style="display:none"></span>
@@ -480,7 +489,234 @@ badge_lesson_1
   </div>
 </main>
 
-<!-- ALERT -->
+<!-- GUIDE MODAL -->
+<div class="modal-backdrop" id="guideBackdrop">
+  <div class="guide-box">
+    <div class="guide-header">
+      <div class="guide-header-left">
+        <div class="guide-header-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="#4ef0c0" stroke-width="1.3"/>
+            <path d="M6.5 6.5A1.5 1.5 0 019.5 8c0 1-1.5 1.5-1.5 2" stroke="#4ef0c0" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="8" cy="11.5" r="0.7" fill="#4ef0c0"/>
+          </svg>
+        </div>
+        <h2>사용 가이드</h2>
+      </div>
+      <button class="btn-close" id="btnCloseGuide">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="guide-tabs">
+      <button class="guide-tab active" onclick="setGuideTab('overview')">개요</button>
+      <button class="guide-tab" onclick="setGuideTab('single')">1 → N 복사</button>
+      <button class="guide-tab" onclick="setGuideTab('multi')">N → N 매칭</button>
+      <button class="guide-tab" onclick="setGuideTab('tips')">팁 & 기능</button>
+    </div>
+
+    <div class="guide-body">
+
+      <!-- OVERVIEW -->
+      <div class="guide-panel show" id="gp-overview">
+        <div>
+          <div class="guide-section-title">이 도구는 무엇인가요?</div>
+          <p class="guide-desc">파일명을 미리 정의한 변수명 리스트에 따라 <strong>일괄 변환</strong>하고 ZIP으로 다운로드하는 도구입니다. 서버 없이 브라우저 메모리에서만 동작해 파일이 외부로 전송되지 않습니다.</p>
+        </div>
+        <div>
+          <div class="guide-section-title">파일명 구조</div>
+          <div class="guide-diagram">
+            <div><span class="hl2">prefix</span> + <span class="hl">변수명</span> + <span class="hl2">.확장자</span></div>
+            <div style="margin-top:8px;color:var(--border)">────────────────────</div>
+            <div style="margin-top:8px"><span class="hl2">badge-</span><span class="hl">streak_1</span><span class="hl2">.svg</span></div>
+            <div><span class="hl2">badge-</span><span class="hl">lesson_1</span><span class="hl2">.svg</span></div>
+            <div><span class="hl2">badge-</span><span class="hl">unit_3</span><span class="hl2">.svg</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="guide-section-title">두 가지 모드</div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-num" style="background:rgba(78,240,192,0.12);border-color:rgba(78,240,192,0.3);color:var(--accent2)">A</div>
+              <div class="step-body">
+                <div class="step-title">1 → N 복사</div>
+                <div class="step-desc">원본 파일 <strong>1개</strong>를 변수명 개수만큼 복사해 각각 다른 이름으로 저장. 동일한 플레이스홀더 이미지가 필요할 때 적합.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num" style="background:rgba(127,255,110,0.12);border-color:rgba(127,255,110,0.3);color:var(--accent)">B</div>
+              <div class="step-body">
+                <div class="step-title">N → N 매칭</div>
+                <div class="step-desc">여러 파일을 업로드 순서대로 변수명 순서에 <strong>1:1 매칭</strong>하여 각각 리네임. 파일마다 내용이 다를 때 사용.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SINGLE -->
+      <div class="guide-panel" id="gp-single">
+        <div>
+          <div class="guide-section-title">언제 쓰나요?</div>
+          <p class="guide-desc">배지 플레이스홀더처럼 <strong>동일한 이미지 파일 하나</strong>를 여러 이름으로 복사해야 할 때 사용합니다.</p>
+        </div>
+        <div>
+          <div class="guide-section-title">사용 방법</div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">상단 탭에서 <span style="color:var(--accent2)">1 → N 복사</span> 선택</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">원본 파일 1개 업로드</div>
+                <div class="step-desc">드래그&드롭 또는 클릭해서 선택. <strong>1개만</strong> 업로드됩니다.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Prefix · 변수명 · 확장자 입력</div>
+                <div class="step-desc">변수명은 한 줄에 하나씩 입력. 확장자는 원본과 달라도 됩니다.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">미리보기 확인 후 ZIP 다운로드</div>
+                <div class="step-desc">변수 개수만큼 파일이 생성됩니다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="guide-section-title">결과 예시</div>
+          <div class="guide-diagram">
+            <div style="color:var(--muted);margin-bottom:6px">원본: <span class="hl2">placeholder.png</span> &nbsp;·&nbsp; prefix: <span class="hl2">badge-</span> &nbsp;·&nbsp; ext: <span class="hl2">svg</span></div>
+            <div style="color:var(--border)">────────────────────────────</div>
+            <div style="margin-top:6px"><span class="hl2">placeholder.png</span> <span class="arr">→</span> <span class="hl">badge-streak_1.svg</span></div>
+            <div><span class="hl2">placeholder.png</span> <span class="arr">→</span> <span class="hl">badge-streak_2.svg</span></div>
+            <div><span class="hl2">placeholder.png</span> <span class="arr">→</span> <span class="hl">badge-lesson_1.svg</span></div>
+            <div style="color:var(--muted);margin-top:4px">... 변수 개수만큼 반복</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MULTI -->
+      <div class="guide-panel" id="gp-multi">
+        <div>
+          <div class="guide-section-title">언제 쓰나요?</div>
+          <p class="guide-desc">각기 다른 파일들을 정해진 이름 규칙으로 <strong>순서대로 리네임</strong>할 때 사용합니다. 업로드 순서 = 변수명 순서.</p>
+        </div>
+        <div>
+          <div class="guide-section-title">사용 방법</div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">상단 탭에서 <span style="color:var(--accent)">N → N 매칭</span> 선택</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">파일 여러 개를 순서대로 업로드</div>
+                <div class="step-desc"><strong>업로드 순서가 곧 매칭 순서</strong>입니다. 드래그로 한 번에 올리면 OS 파일 정렬 순서를 따릅니다.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">변수명을 같은 순서로 입력</div>
+                <div class="step-desc">파일 1번 ↔ 변수 1번, 파일 2번 ↔ 변수 2번 순으로 매칭됩니다.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">개수 일치 확인 후 ZIP 다운로드</div>
+                <div class="step-desc">개수가 다르면 다운로드 시 경고창이 표시됩니다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="guide-section-title">결과 예시</div>
+          <div class="guide-diagram">
+            <div style="color:var(--muted);margin-bottom:6px">prefix: <span class="hl2">badge-</span> &nbsp;·&nbsp; ext: <span class="hl2">svg</span></div>
+            <div style="color:var(--border)">────────────────────────────</div>
+            <div style="margin-top:6px"><span class="hl2">1.svg</span> <span class="arr">→</span> <span class="hl">badge-streak_1.svg</span></div>
+            <div><span class="hl2">2.svg</span> <span class="arr">→</span> <span class="hl">badge-streak_2.svg</span></div>
+            <div><span class="hl2">3.svg</span> <span class="arr">→</span> <span class="hl">badge-lesson_1.svg</span></div>
+          </div>
+        </div>
+        <div class="guide-warn">
+          <span class="tip-icon">⚠</span>
+          <div class="tip-text">파일과 변수 개수가 다르면 다운로드 시 경고창이 나타납니다. <strong>그래도 진행</strong>을 누르면 매칭된 쌍만 ZIP에 포함됩니다.</div>
+        </div>
+      </div>
+
+      <!-- TIPS -->
+      <div class="guide-panel" id="gp-tips">
+        <div>
+          <div class="guide-section-title">주요 기능</div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-num" style="background:rgba(127,255,110,0.08);border-color:rgba(127,255,110,0.2);color:var(--accent)">📋</div>
+              <div class="step-body">
+                <div class="step-title">클립보드 복사</div>
+                <div class="step-desc">미리보기 헤더의 <strong>복사</strong> 버튼을 누르면 변환된 파일명 전체를 클립보드에 복사합니다. Google 스프레드시트에 붙여넣기(⌘V)하면 각 셀에 세로로 입력됩니다.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num" style="background:rgba(127,255,110,0.08);border-color:rgba(127,255,110,0.2);color:var(--accent)">🗂</div>
+              <div class="step-body">
+                <div class="step-title">Prefix / 확장자 설정</div>
+                <div class="step-desc">파일명 앞에 붙는 <strong>Prefix</strong>와 확장자를 자유롭게 설정할 수 있습니다. 확장자를 비워두면 원본 확장자가 유지됩니다.</div>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num" style="background:rgba(127,255,110,0.08);border-color:rgba(127,255,110,0.2);color:var(--accent)">🔒</div>
+              <div class="step-body">
+                <div class="step-title">완전 로컬 처리</div>
+                <div class="step-desc">업로드한 파일은 <strong>브라우저 메모리에만</strong> 임시 저장됩니다. 서버 전송이 없으며 페이지를 닫으면 즉시 사라집니다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="guide-section-title">유용한 팁</div>
+          <div class="guide-tips">
+            <div class="guide-tip">
+              <span class="tip-icon">💡</span>
+              <div class="tip-text">변수명 리스트를 Google 스프레드시트에서 관리한다면, 열 전체를 복사해 textarea에 붙여넣으면 됩니다. 빈 줄은 자동으로 무시됩니다.</div>
+            </div>
+            <div class="guide-tip">
+              <span class="tip-icon">💡</span>
+              <div class="tip-text">Prefix를 비워두면 <strong>변수명.확장자</strong> 형태로만 저장됩니다. 예: <strong>streak_1.svg</strong></div>
+            </div>
+            <div class="guide-tip">
+              <span class="tip-icon">💡</span>
+              <div class="tip-text">N→N 모드에서 파일을 드래그&드롭할 때, 한 번에 여러 파일을 선택하면 <strong>파일 탐색기의 정렬 순서</strong>를 따릅니다. 순서가 중요하다면 미리보기를 꼭 확인하세요.</div>
+            </div>
+            <div class="guide-tip">
+              <span class="tip-icon">💡</span>
+              <div class="tip-text">GitHub Pages에서 이 도구를 사용 중이라면, 도구 자체는 GitHub 서버에서 HTML만 내려받는 것이며 파일은 전혀 전송되지 않습니다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /guide-body -->
+  </div>
+</div>
+
+<!-- ALERT MODAL -->
 <div class="alert-backdrop" id="alertBackdrop">
   <div class="alert-box">
     <div class="alert-icon">
@@ -528,31 +764,89 @@ const alertBackdrop   = document.getElementById('alertBackdrop');
 const alertBody       = document.getElementById('alertBody');
 const btnAlertCancel  = document.getElementById('btnAlertCancel');
 const btnAlertOk      = document.getElementById('btnAlertOk');
+const dzEmpty         = document.getElementById('dzEmpty');
+const dzFilled        = document.getElementById('dzFilled');
+const dzCountPill     = document.getElementById('dzCountPill');
+const dzHint          = document.getElementById('dzHint');
+const dzBadges        = document.getElementById('dzBadges');
 
-// ── mode switch ──
+// ── Guide modal ──
+document.getElementById('btnHelp').addEventListener('click', () => {
+  document.getElementById('guideBackdrop').classList.add('show');
+});
+document.getElementById('btnCloseGuide').addEventListener('click', () => {
+  document.getElementById('guideBackdrop').classList.remove('show');
+});
+document.getElementById('guideBackdrop').addEventListener('click', e => {
+  if (e.target === document.getElementById('guideBackdrop'))
+    document.getElementById('guideBackdrop').classList.remove('show');
+});
+
+let currentGuideTab = 'overview';
+function setGuideTab(tab) {
+  currentGuideTab = tab;
+  document.querySelectorAll('.guide-tab').forEach((btn, i) => {
+    const tabs = ['overview','single','multi','tips'];
+    btn.classList.toggle('active', tabs[i] === tab);
+  });
+  document.querySelectorAll('.guide-panel').forEach(p => p.classList.remove('show'));
+  document.getElementById('gp-' + tab).classList.add('show');
+}
+
+// ── Drop zone counter UI ──
+function updateDropZoneUI() {
+  if (files.length === 0) {
+    dzEmpty.classList.remove('hide');
+    dzFilled.classList.remove('show');
+  } else {
+    dzEmpty.classList.add('hide');
+    dzFilled.classList.add('show');
+    dzCountPill.textContent = `${files.length}개 첨부됨`;
+    dzHint.textContent = mode === 'single' ? '클릭하여 교체' : '클릭하여 추가';
+    // render badges (show up to 6, then +N more)
+    dzBadges.innerHTML = '';
+    const MAX_SHOW = 6;
+    const show = files.slice(0, MAX_SHOW);
+    show.forEach(f => {
+      const b = document.createElement('span');
+      b.className = 'dz-badge';
+      b.textContent = f.name;
+      b.title = f.name;
+      dzBadges.appendChild(b);
+    });
+    if (files.length > MAX_SHOW) {
+      const b = document.createElement('span');
+      b.className = 'dz-badge more';
+      b.textContent = `+${files.length - MAX_SHOW}개 더`;
+      dzBadges.appendChild(b);
+    }
+  }
+}
+
+// ── Mode switch ──
 function setMode(m) {
   mode = m;
   document.getElementById('tabSingle').classList.toggle('active', m === 'single');
   document.getElementById('tabMulti').classList.toggle('active',  m === 'multi');
-
   if (m === 'single') {
     fileInput.removeAttribute('multiple');
     dropZone.classList.add('mode-single');
     filesPanelLabel.textContent = '① 원본 파일 1개 첨부';
-    dropTitle.textContent = '파일 1개 선택';
-    dropSub.innerHTML = '변수 개수만큼 자동 복사됩니다 · <strong>모든 확장자 가능</strong>';
+    if (dropTitle) dropTitle.textContent = '파일 1개 선택';
+    if (dropSub)   dropSub.innerHTML = '변수 개수만큼 자동 복사됩니다 · <strong>모든 확장자 가능</strong>';
     if (files.length > 1) files = [files[0]];
   } else {
     fileInput.setAttribute('multiple', '');
     dropZone.classList.remove('mode-single');
     filesPanelLabel.textContent = '① 파일 여러 개 첨부 (순서 중요)';
-    dropTitle.textContent = '파일을 드래그하거나 클릭해서 선택';
-    dropSub.innerHTML = '파일 순서 = 변수 순서로 매칭됩니다 · <strong>확장자 무관</strong>';
+    if (dropTitle) dropTitle.textContent = '파일을 드래그하거나 클릭해서 선택';
+    if (dropSub)   dropSub.innerHTML = '파일 순서 = 변수 순서로 매칭됩니다 · <strong>확장자 무관</strong>';
   }
+  updateDropZoneUI();
   updatePreview();
 }
 
-// ── drop / input ──
+// ── Drop / input ──
 dropZone.addEventListener('click', () => fileInput.click());
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
@@ -564,11 +858,12 @@ fileInput.addEventListener('change', () => { handleFiles([...fileInput.files]); 
 
 function handleFiles(incoming) {
   files = mode === 'single' ? [incoming[0]] : [...files, ...incoming];
+  updateDropZoneUI();
   updatePreview();
 }
-btnClearFiles.addEventListener('click', () => { files = []; updatePreview(); });
+btnClearFiles.addEventListener('click', () => { files = []; updateDropZoneUI(); updatePreview(); });
 
-// ── helpers ──
+// ── Helpers ──
 function getNames()  { return namesInput.value.split('\n').map(l => l.trim()).filter(Boolean); }
 function getPrefix() { return prefixInput.value; }
 function getExt()    { return extInput.value.replace(/^\./, ''); }
@@ -591,14 +886,14 @@ function appendEmpty(msg) {
   fileListEl.appendChild(li);
 }
 
-// ── preview ──
+// ── Preview ──
 function updatePreview() {
   const names = getNames();
-  fileCountEl.textContent  = `${files.length}개`;
+  fileCountEl.textContent    = `${files.length}개`;
   namesCountChip.textContent = `${names.length}개 변수`;
-  namesCountChip.className = 'meta-chip';
-  matchChip.style.display = 'none';
-  fileListEl.innerHTML = '';
+  namesCountChip.className   = 'meta-chip';
+  matchChip.style.display    = 'none';
+  fileListEl.innerHTML       = '';
 
   if (mode === 'single') {
     if (!files.length) { appendEmpty('파일을 업로드하세요'); }
@@ -629,7 +924,6 @@ function updatePreview() {
     }
   }
 
-  // status & button
   const ready = files.length > 0 && names.length > 0;
   btnDownload.disabled = !ready;
   if (!ready) {
@@ -642,7 +936,6 @@ function updatePreview() {
     setStatus('다운로드 준비 완료!', 'ok');
   }
 }
-
 function showMatchChip(type, text) {
   matchChip.style.display = '';
   matchChip.className = `meta-chip ${type}`;
@@ -653,39 +946,26 @@ namesInput.addEventListener('input', updatePreview);
 prefixInput.addEventListener('input', updatePreview);
 extInput.addEventListener('input', updatePreview);
 
-// ── clipboard ──
+// ── Clipboard ──
 document.getElementById('btnCopy').addEventListener('click', async () => {
   const names = getNames();
   if (!names.length) return;
-
-  // build the list of final filenames (same logic as download)
   let lines = [];
-  if (mode === 'single' && files.length > 0) {
-    lines = names.map(n => buildName(n, files[0]));
-  } else if (mode === 'single') {
-    // no file yet — copy names with prefix+ext applied anyway
-    lines = names.map(n => buildName(n, null));
+  if (mode === 'single') {
+    lines = names.map(n => buildName(n, files[0] || null));
   } else {
-    // multi: only matched pairs (or all names when no files)
     const total = files.length > 0 ? Math.min(files.length, names.length) : names.length;
-    for (let i = 0; i < total; i++) {
-      lines.push(buildName(names[i], files[i] || null));
-    }
+    for (let i = 0; i < total; i++) lines.push(buildName(names[i], files[i] || null));
   }
-
-  // join with newline → Google Sheets treats each line as a separate cell when pasting into a column
-  const text = lines.join('\n');
-  await navigator.clipboard.writeText(text);
-
-  // feedback
-  const btn   = document.getElementById('btnCopy');
+  await navigator.clipboard.writeText(lines.join('\n'));
+  const btn = document.getElementById('btnCopy');
   const label = document.getElementById('btnCopyLabel');
   btn.classList.add('copied');
   label.textContent = `✓ ${lines.length}개`;
   setTimeout(() => { btn.classList.remove('copied'); label.textContent = '복사'; }, 2000);
 });
 
-// ── alert ──
+// ── Alert ──
 function showAlert(title, bodyHtml) {
   return new Promise(resolve => {
     alertResolve = resolve;
@@ -702,12 +982,10 @@ btnAlertCancel.addEventListener('click', () => closeAlert(false));
 btnAlertOk.addEventListener('click',     () => closeAlert(true));
 alertBackdrop.addEventListener('click',  e => { if (e.target === alertBackdrop) closeAlert(false); });
 
-// ── download ──
+// ── Download ──
 btnDownload.addEventListener('click', async () => {
   const names = getNames();
   if (!files.length || !names.length) return;
-
-  // validation (multi mode only)
   if (mode === 'multi' && files.length !== names.length) {
     const diff = Math.abs(files.length - names.length);
     const body = files.length > names.length
@@ -720,7 +998,6 @@ btnDownload.addEventListener('click', async () => {
   btnDownload.disabled = true;
   progressWrap.classList.add('visible');
   setStatus('ZIP 생성 중...', '');
-
   const zip = new JSZip();
 
   if (mode === 'single') {
@@ -739,12 +1016,8 @@ btnDownload.addEventListener('click', async () => {
   }
 
   const blob = await zip.generateAsync({ type: 'blob' });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob),
-    download: `renamed_files_${Date.now()}.zip`
-  });
-  a.click();
-  URL.revokeObjectURL(a.href);
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `renamed_files_${Date.now()}.zip` });
+  a.click(); URL.revokeObjectURL(a.href);
 
   const count = mode === 'single' ? names.length : Math.min(files.length, names.length);
   setTimeout(() => {
