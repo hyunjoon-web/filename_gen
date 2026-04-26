@@ -190,6 +190,17 @@ main {
   padding: 3px 7px; border-radius: 6px; transition: color 0.2s;
 }
 .btn-clear:hover { color: var(--danger); }
+
+.btn-copy {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 7px; padding: 4px 10px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-copy:hover { color: var(--accent2); border-color: var(--accent2); background: rgba(78,240,192,0.06); }
+.btn-copy.copied { color: var(--accent); border-color: rgba(127,255,110,0.4); background: rgba(127,255,110,0.08); }
+.btn-copy svg { flex-shrink: 0; transition: opacity 0.2s; }
 #fileListEl {
   flex: 1; overflow-y: auto; list-style: none; max-height: 260px;
   scrollbar-width: thin; scrollbar-color: var(--border) transparent;
@@ -407,8 +418,15 @@ main {
       <div class="file-list-wrap">
         <div class="file-list-header">
           <span class="section-label" style="margin:0">미리보기</span>
-          <div style="display:flex;gap:8px;align-items:center">
+          <div style="display:flex;gap:6px;align-items:center">
             <span class="file-count" id="fileCountEl">0개</span>
+            <button class="btn-copy" id="btnCopy" title="변환된 파일명을 클립보드에 복사">
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                <rect x="4" y="4" width="8" height="9" rx="1.2" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 10V2.5A1 1 0 013 1.5h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              <span id="btnCopyLabel">복사</span>
+            </button>
             <button class="btn-clear" id="btnClearFiles">초기화</button>
           </div>
         </div>
@@ -634,6 +652,38 @@ function showMatchChip(type, text) {
 namesInput.addEventListener('input', updatePreview);
 prefixInput.addEventListener('input', updatePreview);
 extInput.addEventListener('input', updatePreview);
+
+// ── clipboard ──
+document.getElementById('btnCopy').addEventListener('click', async () => {
+  const names = getNames();
+  if (!names.length) return;
+
+  // build the list of final filenames (same logic as download)
+  let lines = [];
+  if (mode === 'single' && files.length > 0) {
+    lines = names.map(n => buildName(n, files[0]));
+  } else if (mode === 'single') {
+    // no file yet — copy names with prefix+ext applied anyway
+    lines = names.map(n => buildName(n, null));
+  } else {
+    // multi: only matched pairs (or all names when no files)
+    const total = files.length > 0 ? Math.min(files.length, names.length) : names.length;
+    for (let i = 0; i < total; i++) {
+      lines.push(buildName(names[i], files[i] || null));
+    }
+  }
+
+  // join with newline → Google Sheets treats each line as a separate cell when pasting into a column
+  const text = lines.join('\n');
+  await navigator.clipboard.writeText(text);
+
+  // feedback
+  const btn   = document.getElementById('btnCopy');
+  const label = document.getElementById('btnCopyLabel');
+  btn.classList.add('copied');
+  label.textContent = `✓ ${lines.length}개`;
+  setTimeout(() => { btn.classList.remove('copied'); label.textContent = '복사'; }, 2000);
+});
 
 // ── alert ──
 function showAlert(title, bodyHtml) {
